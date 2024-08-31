@@ -1,33 +1,67 @@
-function createHelloWorld (): () => string {
-    return (...agr: any) => 'Hello World';
-}
-const f = createHelloWorld();
+// // 1. 
+// const args = [{}, null, 42];
 
-console.log(f());
-
-function createCounter (n: number): () => number {
-    return () => n++;
-}
-
-const count = createCounter(10);
-
-console.log(count());
-console.log(count());
-console.log(count());
+// const createHelloWorld = () => (...arg: any): string => 'Hello World';
 
 
-type TesterType = {
-    toBe: (val: any) => boolean | Error;
-    notToBe: (val: any) => boolean | Error;
-}
+// const f = createHelloWorld();
+// console.log(f(args))
 
-const tester = (val: any): TesterType => {
-    const errorMessage = (str: string) => new Error(str);
+// // 2. 
+// const createCounter = (n: number): () => number => {
+//     return () => n++
+// }
+// const counter = createCounter(10);
 
+// console.log(counter());
+// console.log(counter());
+// console.log(counter());
+
+// // 3. 
+
+// type ToBeOrNotToBe = {
+//     toBe: (val: any) => boolean;
+//     notToBe: (val: any) => boolean;
+// };
+
+// function expect(val: any): ToBeOrNotToBe {
+//     return {
+//         toBe(val2){
+//             if(val === val2){
+//                 return true
+           
+//             } else throw "Not Equal"
+//         },
+//         notToBe(val2){
+//             if(val !== val2){
+//                 return true
+           
+//             } else throw "Equal"
+//         }
+//     }
+// };
+
+
+// expect(5).toBe(5); // true
+// expect(5).notToBe(5); // throws "Equal"
+
+// 4. 
+const createCounter2 = (init: number) => {
+    let count = init;
     return {
-        toBe: (otherVal) => otherVal === val || errorMessage('Not Equal'),
-        notToBe: (otherVal) => otherVal !== val || errorMessage('Equal'),
+        increment() {
+            return ++count
+        },
+        reset() {
+            return count = init
+        },
+        decrement() {
+            return ++count
+        }
     }
-
 }
-console.log(tester(null).toBe(null))
+
+const counter2 = createCounter2(5);
+console.log(counter2.increment());
+console.log(counter2.reset());
+console.log(counter2.decrement());
