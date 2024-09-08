@@ -115,3 +115,24 @@ const newArr_3 = myReduce([1, 2, 3], function(acc, curr) {
 }, 0)
 
 console.log(newArr_3)
+
+// 8. Function Composition
+
+type Func = (arg: any) => any;
+
+function compose(functions: Func[]): Func {
+    if (functions.length === 0) {
+        return (x: any) => x;
+    }
+
+    return functions.reduceRight(function (prevFn, nextFn) {
+        return function (x: any) {
+            return nextFn(prevFn(x));
+        }
+    })
+}
+const x = compose([function(x){return x + 1}, x => x * x, x => 2 * x]);
+console.log(x(4));
+
+
+
